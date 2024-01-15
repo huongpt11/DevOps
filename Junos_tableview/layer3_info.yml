@@ -1,0 +1,49 @@
+
+LogicalInterfaceTable:
+    rpc: get-interface-information
+    args:
+        interface_name: "*e-*" 
+    item: //physical-interface/logical-interface
+    key: name
+    view: _LogicalInterface_view
+_LogicalInterface_view:
+    fields:
+        physical_description: ../description
+        logical_description: description
+        admin_status: ../admin-status
+        operaional_status: ../oper-status
+        snmp_index: snmp-index
+        physical_interface: ../name
+        ip_address: address-family[address-family-name ='inet']/interface-address/ifa-local
+        ip_network: address-family[address-family-name ='inet']/interface-address/ifa-destination
+        vlan_tag: link-address
+
+
+
+PhysicalInterfaceTable:
+    rpc: get-interface-information
+    item: physical-interface
+    key: name
+    view: _PhysicalInterface_view
+_PhysicalInterface_view:
+    fields:
+        physical_interface: name
+        admin_status: admin-status
+        status: oper-status
+        description: description
+        link-level-type: link-level-type
+        sonet-mode: sonet-mode
+
+UnusedPhysicalInterfaceTable:
+    rpc: get-interface-information
+    args:
+        interface_name: "*e-*"
+    item: //interface-information/physical-interface[not(logical-interface) and not(description)and oper-status = 'down' ]
+    key:
+        - name
+    view: _UnusedPhysicalInterfaceStatus_view
+_UnusedPhysicalInterfaceStatus_view:
+    fields:
+        name: name
+        link-mode: link-level-type
+        sonet-mode: sonet-mode

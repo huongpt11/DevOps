@@ -1,0 +1,35 @@
+VPLSHTable:
+    rpc: get-vpls-connection-information
+    item: //instance/ldp-vpls-reference-site/mesh-group-connection/connection
+    key: connection-id
+    view: _VPLSH_view
+_VPLSH_view:
+    fields:
+        instance_name: ../../../instance-name
+        mes_group: ../mesh-group-name
+        status: connection-status
+
+L2CIRCUITTable:
+    rpc: get-l2ckt-connection-information
+    item: //l2circuit-neighbor/connection
+    key: connection-id
+    view: _L2CIRCUIT_view
+_L2CIRCUIT_view:
+    fields:
+        remote_add: ../neighbor-address
+        connect_id: connection-id
+        status: connection-status
+
+ARPTable:
+  rpc: get-arp-table-information
+  item: arp-table-entry
+  # args:
+  #   interface: "irb.2705"
+  key: ip-address
+  view: _ARP_view
+_ARP_view:
+    fields:
+      mac-address: mac-address
+      ip-address: ip-address
+      hostname: hostname
+      interface-name: interface-name

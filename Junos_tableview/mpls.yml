@@ -1,0 +1,50 @@
+---
+L3VPNRouteTable:
+  rpc: get-route-information
+  args_key: 
+    - level
+    - table
+    #- protocol
+  args:
+    level: detail
+    table: VRF_3G.inet.0 
+    #protocol: static
+  item: //route-table/rt/rt-entry/nh
+  key: 
+    #- lsp-name
+    - ../../rt-destination
+    - via
+    #- ../gateway
+  view: _L3VPNRouteView
+
+_L3VPNRouteView:
+  fields:
+    destination-prefix: ../../rt-destination
+    interface: via
+    lsp: lsp-name
+    mpls_label_operation: mpls-label
+    protocol: ../protocol-name
+
+LdpNeighborTable:
+  rpc: get-ldp-neighbor-information
+  item: ldp-neighbor
+  key: 
+    - interface-name
+    - ldp-neighbor-address
+  view: _LdpNeighborView
+_LdpNeighborView:
+  fields:
+    ldp-neighbor-address: ldp-neighbor-address
+    interface-name: interface-name
+    ldp-label-space-id: ldp-label-space-id
+    ldp-remaining-time: ldp-remaining-time
+
+LdpOverviewTable:
+  rpc: get-ldp-overview-information
+  item: //ldp-overview
+  key: ldp-interface-address/interface-address
+  view: _LdpNOverviewView
+_LdpNOverviewView:
+  fields:
+    ldp-router-id: ldp-router-id
+    interface-address: ldp-interface-address/interface-address

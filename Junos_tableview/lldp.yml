@@ -1,0 +1,25 @@
+LLDPTable:
+  rpc: get-lldp-neighbors-information
+  item: //lldp-neighbor-information
+  key: lldp-local-port-id
+  view: _LLDP_view
+_LLDP_view:
+    fields:
+      physical_interface: lldp-local-port-id
+      parent_interface: lldp-local-parent-interface-name
+      neighbor_name: lldp-remote-system-name
+      neighbor_physical_interface: lldp-remote-port-id
+
+
+SNMP-Intf-IndexTable:
+  rpc: walk-snmp-object
+  args:
+    snmp-object-name: ifDescr
+  item: //snmp-object
+  key: name
+  view: _SNMP_Intf_Index_view
+_SNMP_Intf_Index_view:
+    fields:
+      interface_name: object-value
+      interface_snmp_index: index/index-value
+

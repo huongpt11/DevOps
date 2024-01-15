@@ -1,0 +1,22 @@
+SNMP-HostnameTable:
+  rpc: walk-snmp-object
+  args:
+    snmp-object-name: sysName
+  item: //snmp-object
+  key: name
+  view: _SNMP-Hostname_view
+_SNMP-Hostname_view:
+    fields:
+      snmp_name: object-value
+
+SNMP-Intf-IndexTable:
+  rpc: walk-snmp-object
+  args:
+    snmp-object-name: ifDescr
+  item: //snmp-object
+  key: name
+  view: _SNMP_Intf_Index_view
+_SNMP_Intf_Index_view:
+    fields:
+      interface_name: object-value
+      interface_snmp_index: index/index-value

@@ -1,0 +1,820 @@
+---
+juniper_interface_terseTable:
+  rpc: get-interface-information
+  args:
+    terse: True
+  item: //interface-information/physical-interface/logical-interface
+  key: name
+  view: _juniper_interface_terse_view
+_juniper_interface_terse_view:
+  fields:
+    physical_name: ../name
+    physical_admin_status: ../admin-status
+    physical_oper_status: ../oper-status
+    logical_name: name
+    logical_admin_status: admin-status
+    logical_oper_status: oper-status
+
+
+juniper_lacp_interfaceTable:
+  rpc: get-lacp-interface-information
+  item: //lacp-interface-information-list/lacp-interface-information/lag-lacp-state
+  key: name
+  view: _juniper_lacp_interface_view
+_juniper_lacp_interface_view:
+  fields:
+    name: name
+    aggregate-name: ../lag-lacp-header/aggregate-name
+    lacp-collecting: lacp-collecting
+    lacp-distributing: lacp-distributing
+    lacp-role: lacp-role
+    lacp-activity: lacp-activity
+
+
+
+juniper_logical_interfaceTable:
+  rpc: get-interface-information
+  # args:
+  #   interface_name: "*e-*" 
+  item: //interface-information/physical-interface/logical-interface
+  key: name
+  view: _juniper_logical_interface_view
+_juniper_logical_interface_view:
+  fields:
+    physical_description: ../description
+    logical_description: description
+    admin_status: ../admin-status
+    operaional_status: ../oper-status
+    snmp_index: snmp-index
+    physical_interface: ../name
+    # hardware_address: ../hardware-physical-address
+    ip_address: address-family[address-family-name ='inet']/interface-address/ifa-local
+    ip_network: address-family[address-family-name ='inet']/interface-address/ifa-destination
+    vlan_tag: link-address
+
+
+juniper_isis_interfaceTable:
+  rpc: get-isis-interface-information
+  item: //isis-interface-information/isis-interface
+  key: interface-name
+  view: _juniper_isis_interface_view
+_juniper_isis_interface_view:
+  fields:
+    interface-name: interface-name
+    circuit-type: circuit-type
+    circuit-id: circuit-id
+    isis-interface-state-one: isis-interface-state-one
+    isis-interface-state-two: isis-interface-state-two
+    metric-one: metric-one
+    metric-two: metric-two
+
+
+
+juniper_isis_adjacencyTable:
+  rpc: get-isis-adjacency-information
+  args:
+    detail: True
+  item: //isis-adjacency-information/isis-adjacency
+  key: interface-name
+  view: _juniper_isis_adjacency_view
+_juniper_isis_adjacency_view:
+  fields:
+    interface-name: interface-name
+    system-name: system-name
+    level: level
+    adjacency-state: adjacency-state
+    holdtime: holdtime
+    interface-priority: interface-priority
+    circuit-type: circuit-type
+    adjacency-flag: adjacency-flag
+    adjacency-topologies: adjacency-topologies
+    adjacency-advertisement: adjacency-advertisement
+    ip-address: ip-address
+
+juniper_isis_hostnameTable:
+  rpc: get-isis-hostname-information
+  item: //isis-hostname-information/isis-hostname
+  key:
+    - system-name
+    - system-id
+  view: _juniper_isis_hostname_view
+_juniper_isis_hostname_view:
+  fields:
+    system-name: system-name
+    system-id: system-id
+    isis-hostname-type: isis-hostname-type
+
+juniper_ip_route_routing_path_inet0Table:
+  rpc: get-route-information
+  args:
+    table: inet.0
+#added inet.0 xpath filter in case we are collecting from offline xml file
+  item: //route-information/route-table[table-name='inet.0']/rt/rt-entry 
+  key:
+    - learned-from
+    - ../rt-destination
+    - protocol-name
+  view: _juniper_ip_route_routing_path_inet0_view
+_juniper_ip_route_routing_path_inet0_view:
+  fields:
+    learned-from: learned-from
+    rt-destination: ../rt-destination
+    active-tag: active-tag
+    protocol-name: protocol-name
+    preference: preference
+    metric: metric
+    to: nh/to
+    via: nh/via
+    nexthop-type: nh-type
+    next-hop-local: nh/nh-local-interface
+
+
+juniper_ip_route_forwarding_path_inet0Table:
+  rpc: get-route-information
+  args:
+    table: inet.0
+#added inet.0 xpath filter in case we are collecting from offline xml file
+  item: //route-information/route-table[table-name='inet.0']/rt/rt-entry/nh
+  key:
+    - ../learned-from
+    - ../../rt-destination
+    - ../protocol-name
+    - to
+    - via
+  view: _juniper_ip_route_forwarding_path_inet0_view
+_juniper_ip_route_forwarding_path_inet0_view:
+  fields:
+    learned-from: ../learned-from
+    rt-destination: ../../rt-destination
+    active-tag: ../active-tag
+    protocol-name: ../protocol-name
+    preference: ../preference
+    metric: ../metric
+    to: to
+    via: via
+    nexthop-type: ../nh-type
+    next-hop-local: nh-local-interface
+
+#WARNING: DO NOT USE THIS ON VNPT-VN2 OR ANY P/PE/IGW/BNG DEVICE
+juniper_ip_route_routing_pathTable:
+  rpc: get-route-information
+  item: //route-information/route-table[table-name!='bgp.l3vpn.0']/rt/rt-entry 
+  key:
+    - learned-from
+    - ../rt-destination
+    - protocol-name
+    - ../../table-name
+  view: _juniper_ip_route_routing_path_view
+_juniper_ip_route_routing_path_view:
+  fields:
+    table-name: ../../table-name
+    learned-from: learned-from
+    rt-destination: ../rt-destination
+    active-tag: active-tag
+    protocol-name: protocol-name
+    preference: preference
+    metric: metric
+    to: nh/to
+    via: nh/via
+    nexthop-type: nh-type
+    next-hop-local: nh/nh-local-interface
+
+
+#WARNING: DO NOT USE THIS ON VNPT-VN2 OR ANY P/PE/IGW/BNG DEVICE
+juniper_ip_route_forwarding_pathTable:
+  rpc: get-route-information
+  item: //route-information/route-table[table-name!='bgp.l3vpn.0']/rt/rt-entry/nh
+  key:
+    - ../../../table-name
+    - ../learned-from
+    - ../../rt-destination
+    - ../protocol-name
+    - to
+    - via
+  view: _juniper_ip_route_forwarding_path_view
+_juniper_ip_route_forwarding_path_view:
+  fields:
+    table-name: ../../../table-name
+    learned-from: ../learned-from
+    rt-destination: ../../rt-destination
+    active-tag: ../active-tag
+    protocol-name: ../protocol-name
+    preference: ../preference
+    metric: ../metric
+    to: to
+    via: via
+    nexthop-type: ../nh-type
+    next-hop-local: nh-local-interface
+
+juniper_route_summaryTable:
+  rpc: get-route-summary-information
+  item: //route-summary-information/route-table
+  key: table-name
+  view: _juniper_route_summaryView
+
+_juniper_route_summaryView:
+  fields:
+    table_name: table-name
+    dests: { destination-count : int }
+    total: { total-route-count : int }
+    active: { active-route-count : int }
+    holddown: { holddown-route-count : int }
+    hidden: { hidden-route-count : int }
+    protocols: _rspTable
+
+_rspTable:
+  item: protocols
+  key: protocol-name
+  view: _rspView
+
+_rspView:
+  fields:
+    protocol_name: protocol-name
+    count: { protocol-route-count: int }
+    active: { active-route-count : int }
+
+
+# juniper_ip_route_vpn_L3-VPRN-310288200Table:
+#   rpc: get-route-information
+#   args:
+#     table: L3-VPRN-310288200
+#   item: //route-information/route-table/rt/rt-entry
+#   key:
+#     - nh/via
+#     - ../rt-destination
+#     - protocol-name
+#   view: _juniper_ip_route_vpn_L3-VPRN-310288200_view
+# _juniper_ip_route_vpn_L3-VPRN-310288200_view:
+#   fields:
+#     rt-destination: ../rt-destination
+#     active-tag: active-tag
+#     protocol-name: protocol-name
+#     preference: preference
+#     metric: metric
+#     to: nh/to
+#     via: nh/via
+
+# juniper_ip_route_vpn_L3-VPRN-31028821Table:
+#   rpc: get-route-information
+#   args:
+#     table: L3-VPRN-31028821
+#   item: //route-information/route-table/rt/rt-entry
+#   key:
+#     - nh/via
+#     - ../rt-destination
+#     - protocol-name
+#   view: _juniper_ip_route_vpn_L3-VPRN-31028821_view
+# _juniper_ip_route_vpn_L3-VPRN-31028821_view:
+#   fields:
+#     rt-destination: ../rt-destination
+#     active-tag: active-tag
+#     protocol-name: protocol-name
+#     preference: preference
+#     metric: metric
+#     to: nh/to
+#     via: nh/via
+
+# juniper_ip_route_vpn_L3-VPRN-31028822Table:
+#   rpc: get-route-information
+#   args:
+#     table: L3-VPRN-31028822
+#   item: //route-information/route-table/rt/rt-entry
+#   key:
+#     - nh/via
+#     - ../rt-destination
+#     - protocol-name
+#   view: _juniper_ip_route_vpn_L3-VPRN-31028822_view
+# _juniper_ip_route_vpn_L3-VPRN-31028822_view:
+#   fields:
+#     rt-destination: ../rt-destination
+#     active-tag: active-tag
+#     protocol-name: protocol-name
+#     preference: preference
+#     metric: metric
+#     to: nh/to
+#     via: nh/via
+
+
+juniper_bgp_neigborTable:
+    rpc: get-bgp-neighbor-information
+    item: //bgp-information/bgp-peer
+    key: peer-address
+    view: _juniper_bgp_neigbor_view
+_juniper_bgp_neigbor_view:
+   fields:
+    # general ifo
+    peer_as: peer-as
+    local_id: local-id
+    peer_id: peer-id
+    state: peer-state
+    type: peer-type
+    peer_address: peer-address
+    local_as: local-as
+    local_address: local-address
+
+    peer-cfg-rti: peer-cfg-rti
+    peer-fwd-rti: peer-fwd-rti
+    export-policy: export-policy
+    import-policy: import-policy
+    nlri-type-peer: nlri-type-peer
+    nlri-type-session: nlri-type-session
+
+    table_name_list: bgp-rib/name
+    #routing info
+    route_received_l3vpn: bgp-rib[name='bgp.l3vpn.0']/received-prefix-count
+    route_actived_l3vpn: bgp-rib[name='bgp.l3vpn.0']/active-prefix-count
+    route_accepted_l3vpn: bgp-rib[name='bgp.l3vpn.0']/accepted-prefix-count
+    route_advertised_l3vpn: bgp-rib[name='bgp.l3vpn.0']/advertised-prefix-count
+
+    route_received_l2vpn: bgp-rib[name='bgp.l2vpn.0']/received-prefix-count
+    route_actived_l2vpn: bgp-rib[name='bgp.l2vpn.0']/active-prefix-count
+    route_accepted_l2vpn: bgp-rib[name='bgp.l2vpn.0']/accepted-prefix-count
+    route_advertised_l2vpn: bgp-rib[name='bgp.l2vpn.0']/advertised-prefix-count
+
+    # route_received: bgp-rib/received-prefix-count
+    # route_actived: bgp-rib/active-prefix-count
+    # route_accepted: bgp-rib/accepted-prefix-count
+    # route_advertised: bgp-rib/accepted-prefix-count
+
+juniper_pim_interfaceTable:
+  rpc: get-pim-interfaces-information
+  item: //pim-interfaces-information/pim-interface
+  key: pim-interface-name
+  view: _juniper_pim_interface_view
+_juniper_pim_interface_view:
+  fields:
+    pim-interface-name: pim-interface-name
+    status: status
+    ip-protocol-version: ip-protocol-version
+    protocol-version: protocol-version
+    neighbor-count: neighbor-count
+    interface-join-sg-count: interface-join-sg-count
+    interface-join-tsg-count: interface-join-tsg-count
+    designated-router-address: designated-router-address
+
+juniper_igmp_interfaceTable:
+  rpc: get-igmp-interfaces-information
+  item: //igmp-interface-information/mgm-interface
+  key: interface-name
+  view: _juniper_igmp_interface_view
+_juniper_igmp_interface_view:
+  fields:
+    interface-name: interface-name
+    querier-address: querier-address
+    interface-state: mgm-interface-state
+    group-count: mgm-group-count
+    promiscuous-mode: mrm-promiscuous-mode
+
+
+juniper_pim_neighborTable:
+  rpc: get-pim-neighbors-information
+  item: //pim-neighbors-information/pim-interface/pim-neighbor
+  key: pim-interface-name
+  view: _juniper_pim_neighbor_view
+_juniper_pim_neighbor_view:
+  fields:
+    pim-interface-name: pim-interface-name
+    ip-protocol-version: ip-protocol-version
+    protocol-version: protocol-version
+    pim-neighbor-uptime: pim-neighbor-uptime
+    pim-neighbor-address: pim-neighbor-address
+
+
+
+juniper_pim_joinTable:
+  rpc: get-pim-join-information
+  item: //pim-join-information/join-family/join-group
+  key: multicast-group-address
+  view: _juniper_pim_join_view
+_juniper_pim_join_view:
+  fields:
+    multicast-group-address: multicast-group-address
+    multicast-source-address: multicast-source-address
+    upstream-interface-name: upstream-interface-name
+
+juniper_multicast_routeTable:
+  rpc: get-multicast-route-information
+  item: //multicast-route-information/route-family/multicast-route
+  key: multicast-group-address
+  view: _juniper_multicast_routeview
+_juniper_multicast_routeview:
+  fields:
+    address-family: ../address-family
+    multicast-instance: ../multicast-instance
+    multicast-group-address: multicast-group-address
+    multicast-source-address: multicast-source-address
+    multicast-source-prefix-length: multicast-source-prefix-length
+    upstream-interface-name: upstream-interface-name
+    downstream-interface-names: downstream-interface-names/interface-name
+
+juniper_route_inet1Table:
+  rpc: get-route-information
+  args:
+    table: "inet.1"
+  item: //route-information/route-table/rt/rt-entry
+  key: protocol-name
+  view: _juniper_route_inet1_view
+_juniper_route_inet1_view:
+  fields:
+    rt-destination: ../rt-destination
+    active-tag: active-tag
+    protocol-name: protocol-name
+    preference: preference
+    nh-type: nh-type
+
+
+juniper_mpls_interfaceTable:
+  rpc: get-mpls-interface-information
+  item: //mpls-interface-information/mpls-interface
+  key: interface-name
+  view: _juniper_mpls_interface_view
+_juniper_mpls_interface_view:
+  fields:
+    interface-name: interface-name
+    mpls-interface-state: mpls-interface-state
+    no-group-flag: no-group-flag
+
+
+
+juniper_rsvp_interfaceTable:
+  rpc: get-rsvp-interface-information
+  item: //rsvp-interface-information/rsvp-interface
+  key: interface-name
+  view: _juniper_rsvp_interface_view
+_juniper_rsvp_interface_view:
+  fields:
+    interface-name: interface-name
+    index: index
+    rsvp-status: rsvp-status
+    active-reservation: rsvp-telink/rsvp-telink
+    subscription: rsvp-telink/subscription
+    static-bandwidth: rsvp-telink/static-bandwidth
+    available-bandwidth: rsvp-telink/available-bandwidth
+    total-reserved-bandwidth: rsvp-telink/total-reserved-bandwidth
+    high-watermark: rsvp-telink/high-watermark
+
+
+
+juniper_ldp_interfaceTable:
+  rpc: get-ldp-interface-information
+  item: //ldp-interface-information/ldp-interface
+  key: interface-name
+  view: _juniper_ldp_interface_view
+_juniper_ldp_interface_view:
+  fields:
+    interface-name: interface-name
+    ldp-label-space-id: ldp-label-space-id
+    ldp-neighbor-count: ldp-neighbor-count
+    ldp-next-hello: ldp-next-hello
+
+
+juniper_ldp_neighborTable:
+  rpc: get-ldp-neighbor-information
+  item: //ldp-neighbor-information/ldp-neighbor
+  key: ldp-neighbor-address
+  view: _juniper_ldp_neighbor_view
+_juniper_ldp_neighbor_view:
+  fields:
+    ldp-neighbor-address: ldp-neighbor-address
+    interface-name: interface-name
+    ldp-label-space-id: ldp-label-space-id
+    ldp-remaining-time: ldp-remaining-time
+
+
+juniper_ldp_sessionTable:
+  rpc: get-ldp-session-information
+  item: //ldp-session-information/ldp-session
+  key: ldp-neighbor-address
+  view: _juniper_ldp_session_view
+_juniper_ldp_session_view:
+  fields:
+    ldp-neighbor-address: ldp-neighbor-address
+    ldp-session-state: ldp-session-state
+    ldp-connection-state: ldp-connection-state
+    ldp-remaining-time: ldp-remaining-time
+    ldp-session-adv-mode: ldp-session-adv-mode
+
+
+
+juniper_rsvp_neighborTable:
+  rpc: get-rsvp-neighbor-information
+  item: //rsvp-neighbor-information/rsvp-neighbor
+  key: rsvp-neighbor-address
+  view: _juniper_rsvp_neighbor_view
+_juniper_rsvp_neighbor_view:
+  fields:
+    rsvp-neighbor-address: rsvp-neighbor-address
+    neighbor-idle: neighbor-idle
+    neighbor-up-count: neighbor-up-count
+    neighbor-down-count: neighbor-down-count
+    last-changed-time: last-changed-time
+
+juniper_rsvp_sessionTable:
+  rpc: get-rsvp-session-information
+  item: //rsvp-session-information/rsvp-session-data/rsvp-session
+  key: name
+  view: _juniper_rsvp_session_view
+_juniper_rsvp_session_view:
+  fields:
+    name: name
+    destination-address: destination-address
+    source-address: source-address
+    lsp-state: lsp-state
+    route-count: route-count
+    rsb-count: rsb-count
+    resv-style: resv-style
+    label-in: label-in
+    label-out: label-out
+
+
+
+juniper_mpls_lsp_detail_ingressTable:
+  rpc: get-mpls-lsp-information
+  args:
+    detail: True
+  item: //mpls-lsp-information/rsvp-session-data/session-type[text()="Ingress"]/../rsvp-session/mpls-lsp
+  key:
+    - name
+    - source-address
+  view: _juniper_mpls_lsp_detail_ingress_view
+_juniper_mpls_lsp_detail_ingress_view:
+  fields:
+    lsp_name: name
+    destination-address: destination-address
+    source-address: source-address
+    lsp-state: lsp-state
+    route-count: route-count
+    lsp-description: lsp-description
+    active-path: active-path
+    lsp-type: lsp-type
+    egress-label-operation: egress-label-operation
+    load-balance: load-balance
+    mpls-lsp-attributes: mpls-lsp-attributes/gpid
+    mpls-lsp-path-Primary-name: mpls-lsp-path/title[text()="Primary"]/../name
+    mpls-lsp-path-Primary-state: mpls-lsp-path/title[text()="Primary"]/../path-state
+    mpls-lsp-path-Secondary-name: mpls-lsp-path/title[text()="Standby  "]/../name
+    mpls-lsp-path-Secondary-state: mpls-lsp-path/title[text()="Standby  "]/../path-state
+
+juniper_mpls_lsp_detail_egressTable:
+  rpc: get-mpls-lsp-information
+  args:
+    detail: True
+  item: //mpls-lsp-information/rsvp-session-data/session-type[text()="Egress"]/../rsvp-session
+  key:
+    - name
+    - source-address
+  view: _juniper_mpls_lsp_detail_egress_view
+_juniper_mpls_lsp_detail_egress_view:
+  fields:
+    destination-address: destination-address
+    source-address: source-address
+    lsp-state: lsp-state
+    route-count: route-count
+    lsp_name: name
+    lsp-path-type: lsp-path-type
+    suggested-label-in: suggested-label-in
+    recovery-label-in: recovery-label-in
+    recovery-label-out: recovery-label-out
+    rsb-count: rsb-count
+    resv-style: resv-style
+    label-in: label-in
+    label-out: label-out
+    psb-lifetime: psb-lifetime
+    psb-creation-time: psb-creation-time
+    sender-tspec: sender-tspec
+    lsp-id: lsp-id
+    tunnel-id: tunnel-id
+    proto-id: proto-id
+    explicit-route: explicit-route/address
+    record-route: record-route/address
+
+
+juniper_vpls_connectionTable:
+  rpc: get-vpls-connection-information
+  item: //vpls-connection-information/instance/ldp-vpls-reference-site/mesh-group-connection/connection
+  key:
+    - connection-id
+    - ../mesh-group-name
+  view: _juniper_vpls_connection_view
+_juniper_vpls_connection_view:
+  fields:
+    instance-name: ../../../instance-name
+    vpls-ip: ../../vpls-ip
+    connection-id: connection-id
+    connection-type: connection-type
+    connection-status: connection-status
+    remote-pe: remote-pe
+    control-word: control-word
+    interface-name: local-interface/interface-name
+    interface-status: local-interface/interface-status
+    encapsulation: local-interface/encapsulation
+    profile-name: local-interface/profile-name
+
+
+juniper_vpls_mac_tableTable:
+  rpc: get-vpls-mac-table
+  args:
+    detail: True
+  item: //l2ald-rtb-macdb/l2ald-mac-entry
+  key:
+    - l2-mac-address
+    - l2-mac-routing-instance
+  view: _juniper_vpls_mac_table_view
+_juniper_vpls_mac_table_view:
+  fields:
+    l2-mac-address: l2-mac-address
+    l2-mac-routing-instance: l2-mac-routing-instance
+    l2-mac-bridging-domain: l2-mac-bridging-domain
+    l2-bridge-vlan: l2-bridge-vlan
+    l2-mac-logical-interface: l2-mac-logical-interface
+
+
+
+juniper_l2circuit_connectionTable:
+  rpc: get-l2ckt-connection-information
+  item: //l2circuit-connection-information/l2circuit-neighbor/connection
+  key:
+    - connection-id
+    - ../neighbor-address
+  view: _juniper_l2circuit_connection_view
+_juniper_l2circuit_connection_view:
+  fields:
+    neighbor-address: ../neighbor-address
+    connection-id: connection-id
+    connection-type: connection-type
+    connection-status: connection-status
+    remote-pe: remote-pe
+    control-word: control-word
+    local-interface-name: local-interface/interface-name
+    local-interface-status: local-interface/interface-status
+    local-interface-encapsulation: local-interface/interface-encapsulation
+
+
+
+juniper_arp_tableTable:
+  rpc: get-arp-table-information
+  args:
+    no-resolve: True
+  item: //arp-table-information/arp-table-entry
+  key: mac-address
+  view: _juniper_arp_table_view
+_juniper_arp_table_view:
+  fields:
+    mac-address: mac-address
+    ip-address: ip-address
+    interface-name: interface-name
+
+
+juniper_optic_mxTable:
+  rpc: get-interface-optics-diagnostics-information
+  args:
+    interface-name: "*e*"
+  item: //interface-information/physical-interface/optics-diagnostics
+  key: name
+  view: _juniper_optic_mx_view
+_juniper_optic_mx_view:
+  fields:
+    interface_name: ../name
+    OpticRX: laser-rx-optical-power-dbm
+    OpticRX_avg: rx-signal-avg-optical-power-dbm
+    OpticTX: laser-output-power-dbm
+    rxLowWarn: laser-rx-power-low-alarm-threshold-dbm
+    rxLowAlarm: laser-rx-power-low-warn-threshold-dbm
+
+
+juniper_config_l3vpn_routing_instance_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vrf']//interface/name
+  key: ../name
+  view: _juniper_config_l3vpn_routing_instance_interface_view
+_juniper_config_l3vpn_routing_instance_interface_view:
+  fields:
+    interface-name: ../name
+    instance-name: ../../name
+    rd: ../../route-distinguisher/rd-type
+    vrf-import: ../../vrf-import
+    vrf-export: ../../vrf-export
+
+
+juniper_config_l3vpn_routing_instance_static_routeTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vrf']/routing-options/static/route
+  key: name
+  view: _juniper_config_l3vpn_routing_instance_static_route_view
+_juniper_config_l3vpn_routing_instance_static_route_view:
+  fields:
+    instance-name: ../../../name
+    static_route_name: name
+    next-hop: next-hop
+    qualified-next-hop: qualified-next-hop/name
+    resolve: resolve
+    discard: discard
+
+juniper_config_vpls_routing_instance_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vpls']/interface
+  key: name
+  view: _juniper_config_vpls_routing_instance_interface_view
+_juniper_config_vpls_routing_instance_interface_view:
+  fields:
+    interface-name: name
+    instance-name: ../name
+
+
+juniper_config_igmp_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/protocols/igmp/interface
+  key: name
+  view: _juniper_config_igmp_interface_view
+_juniper_config_igmp_interface_view:
+  fields:
+    interface-name: name
+    ssm-map-policy: ssm-map-policy
+    promiscuous-mode: promiscuous-mode
+
+juniper_config_policy_termTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term
+  key: 
+     - name
+     - ../name
+  view: _juniper_config_policy_term_view
+_juniper_config_policy_term_view:
+  fields:
+    term_name: name
+    term_action_accept: then/accept
+    policy_name: ../name
+    protocol_condition: from/protocol
+    community_condition: from/community
+    route_filter_condition_address: from/route-filter/address
+    route_filter_condition_exact: from/route-filter/exact
+    community_action_name: then/community/community-name
+    community_action_add: then/community/add
+
+juniper_config_policy_term_community_actionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/then/community
+  key: 
+     - ../../name
+     - ../../../name
+     - community-name
+  view: _juniper_config_policy_term_community_action_view
+_juniper_config_policy_term_community_action_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    community_action_name: community-name
+    community_action_add: add
+
+juniper_config_policy_term_community_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/community
+  key: 
+     - ../../name
+     - ../../../name
+     - .
+  view: _juniper_config_policy_term_community_condition_view
+_juniper_config_policy_term_community_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    community_condition: .
+
+juniper_config_policy_term_protocol_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/protocol
+  key: 
+     - ../../name
+     - ../../../name
+     - .
+  view: _juniper_config_policy_term_protocol_condition_view
+_juniper_config_policy_term_protocol_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    protocol_condition: .
+
+
+juniper_config_policy_term_route_filter_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/route-filter
+  key: 
+     - ../../name
+     - ../../../name
+     - address
+  view: _juniper_config_policy_term_route_filter_condition_view
+_juniper_config_policy_term_route_filter_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    route_filter_condition_address: address
+    route_filter_condition_exact: exact

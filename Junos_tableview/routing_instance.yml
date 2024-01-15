@@ -1,0 +1,11 @@
+---
+
+RoutingInstanceTable:
+  get: routing-instances/instance
+  key: name
+  view: _RoutingInstanceTview
+_RoutingInstanceTview:
+   fields:
+    instance-type: instance-type
+    instance_name: name
+    interface_name: interface/name

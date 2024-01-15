@@ -1,0 +1,113 @@
+
+OPTIC-ACX-Table:
+    rpc: get-interface-optics-diagnostics-information
+    item: //physical-interface
+    key: name
+    view: _OPTIC-ACX_view
+_OPTIC-ACX_view:
+    fields:
+        OpticRX: optics-diagnostics/rx-signal-avg-optical-power-dbm
+        OpticTX: optics-diagnostics/laser-output-power-dbm
+        rxLowWarn: optics-diagnostics/laser-rx-power-low-alarm-threshold-dbm
+        rxLowAlarm: optics-diagnostics/laser-rx-power-low-warn-threshold-dbm
+        rxHighWarn: optics-diagnostics/laser-rx-power-high-alarm-threshold-dbm
+        rxHighAlarm: optics-diagnostics/laser-rx-power-high-warn-threshold-dbm
+
+
+
+OPTIC-MX-Table:
+    rpc: get-interface-optics-diagnostics-information
+    args:
+        interface-name: "xe-*"
+    item: //physical-interface
+    key: name
+    view: _OPTIC-MX_view
+_OPTIC-MX_view:
+    fields:
+        interface_name: name
+        OpticRX: optics-diagnostics/laser-rx-optical-power-dbm
+        OpticRX_avg: optics-diagnostics/rx-signal-avg-optical-power-dbm
+        OpticTX: optics-diagnostics/laser-output-power-dbm
+        rxLowWarn: optics-diagnostics/laser-rx-power-low-alarm-threshold-dbm
+        rxLowAlarm: optics-diagnostics/laser-rx-power-low-warn-threshold-dbm
+        rxHighWarn: optics-diagnostics/laser-rx-power-high-alarm-threshold-dbm
+        rxHighAlarm: optics-diagnostics/laser-rx-power-high-warn-threshold-dbm
+
+
+OPTIC-100GE-Table:
+    rpc: get-interface-optics-diagnostics-information
+    args:
+        interface-name: "et-*"
+    item: //optics-diagnostics-lane-values
+    key:
+        - ../../name
+        - lane-index
+    view: _OPTIC-100GE_view
+_OPTIC-100GE_view:
+    fields:
+        interface_name: ../../name
+        rxLowWarn: ../laser-rx-power-low-alarm-threshold-dbm
+        rxLowAlarm: ../laser-rx-power-low-warn-threshold-dbm
+        lane_index: lane-index
+        lan_receive_pw: laser-rx-optical-power
+        lan_receive_db: laser-rx-optical-power-dbm
+
+OPTIC-LAN-Table:
+    rpc: get-interface-optics-diagnostics-information
+    item: //optics-diagnostics-lane-values
+    args:
+        interface-name: "et-[5-7/]*"
+    key:
+        - ../../name
+        - lane-index
+    view: _OPTIC-LAN_view
+_OPTIC-LAN_view:
+    fields:
+        interface_name: ../../name
+        module-temperature-high-alarm: ../module-temperature-high-alarm
+        module-temperature-low-alarm: ../module-temperature-low-alarm
+        module-temperature-high-warn: ../module-temperature-high-warn
+        module-temperature-low-warn: ../module-temperature-low-warn
+        module-voltage-high-alarm: ../module-voltage-high-alarm
+        module-voltage-low-alarm: ../module-voltage-low-alarm
+        module-voltage-high-warn: ../module-voltage-high-warn
+        module-voltage-low-warn : ../module-voltage-low-warn
+        module-not-ready-alarm: ../module-not-ready-alarm
+        module-not-high-power-on-alarm: ../module-not-high-power-on-alarm
+        module-not-init-done-alarm: ../module-not-init-done-alarm
+        module-fault-alarm: ../module-fault-alarm
+        pld-flash-init-fault-alarm: ../pld-flash-init-fault-alarm
+        power-supply-fault-alarm: ../power-supply-fault-alarm
+        checksum-fault-alarm: ../checksum-fault-alarm
+        tx-laser-disabled-alarm: ../tx-laser-disabled-alarm
+        tx-loss-of-signal-functionality-alarm: ../tx-loss-of-signal-functionality-alarm
+        tx-cdr-loss-of-lock-alarm: ../tx-cdr-loss-of-lock-alarm
+        rx-loss-of-signal-alarm: ../rx-loss-of-signal-alarm
+        rx-cdr-loss-of-lock-alarm: ../rx-cdr-loss-of-lock-alarm
+        laser-rx-power-high-warn-threshold-dbm: ../laser-rx-power-high-warn-threshold-dbm
+        laser-rx-power-low-warn-threshold-dbm: ../laser-rx-power-low-warn-threshold-dbm
+        lane-index: lane-index
+        laser-rx-optical-power-dbm: laser-rx-optical-power-dbm
+        laser-bias-current-high-alarm: laser-bias-current-high-alarm
+        laser-bias-current-low-alarm: laser-bias-current-low-alarm
+        laser-bias-current-high-warn: laser-bias-current-high-warn
+        laser-bias-current-low-warn: laser-bias-current-low-warn
+        laser-tx-power-high-alarm: laser-tx-power-high-alarm
+        laser-tx-power-low-alarm: laser-tx-power-low-alarm
+        laser-tx-power-high-warn: laser-tx-power-high-warn
+        laser-tx-power-low-warn: laser-tx-power-low-warn
+        laser-temp-high-alarm: laser-temp-high-alarm
+        laser-temp-low-alarm: laser-temp-low-alarm
+        laser-temp-high-warn: laser-temp-high-warn
+        laser-temp-low-warn: laser-temp-low-warn
+        laser-rx-power-high-alarm: laser-rx-power-high-alarm
+        laser-rx-power-low-alarm: laser-rx-power-low-alarm
+        laser-rx-power-high-warn: laser-rx-power-high-warn
+        laser-rx-power-low-warn: laser-rx-power-low-warn
+        tx-loss-of-signal-functionality-alarm: tx-loss-of-signal-functionality-alarm
+        tx-cdr-loss-of-lock-alarm: tx-cdr-loss-of-lock-alarm
+        rx-loss-of-signal-alarm: rx-loss-of-signal-alarm
+        rx-cdr-loss-of-lock-alarm: rx-cdr-loss-of-lock-alarm
+        apd-supply-fault-alarm: apd-supply-fault-alarm
+        tec-fault-alarm: tec-fault-alarm
+        wavelength-unlocked-alarm: wavelength-unlocked-alarm

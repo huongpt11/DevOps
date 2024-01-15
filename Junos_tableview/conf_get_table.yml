@@ -1,0 +1,205 @@
+juniper_config_l3vpn_routing_instance_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vrf']/interface
+  key: name
+  view: _juniper_config_l3vpn_routing_instance_interface_view
+_juniper_config_l3vpn_routing_instance_interface_view:
+  fields:
+    interface-name: name
+    instance-name: ../name
+    rd: ../route-distinguisher/rd-type
+    vrf-import: ../vrf-import
+    vrf-export: ../vrf-export
+
+
+juniper_config_igmp_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/protocols/igmp/interface
+  key: name
+  view: _juniper_config_igmp_interface_view
+_juniper_config_igmp_interface_view:
+  fields:
+    interface-name: name
+    ssm-map-policy: ssm-map-policy
+    promiscuous-mode: promiscuous-mode
+
+juniper_config_policy_statement_term_community_conditionTable:
+  get: policy-options/policy-statement/term/from/community
+  #rpc: get-configuration
+  #filter_xml: routing-instances
+  #item: //policy-options/policy-statement/term
+  #key: 
+  #   - name
+  #   - ../name
+  #required_keys:
+  # term: name
+  view: _juniper_config_policy_statement_term_community_condition_view
+_juniper_config_policy_statement_term_community_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    #from: from/protocol
+juniper_config_firewall_policerTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/firewall/policer
+  key: name
+  view: _juniper_config_firewall_policer_view
+_juniper_config_firewall_policer_view:
+  fields:
+    policer_name: name
+    bandwidth_limit: if-exceeding/bandwidth-limit
+    bandwidth_percent: if-exceeding/bandwidth-percent
+    burst_size: if-exceeding/burst-size-limit
+    action_discard: then/discard
+    action_fordwarding_class: then/forwarding-class
+    action_loss_priority: then/loss-priority
+
+juniper_config_l3vpn_routing_instance_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vrf']//interface/name
+  key: ../name
+  view: _juniper_config_l3vpn_routing_instance_interface_view
+_juniper_config_l3vpn_routing_instance_interface_view:
+  fields:
+    interface-name: ../name
+    instance-name: ../../name
+    rd: ../../route-distinguisher/rd-type
+    vrf-import: ../../vrf-import
+    vrf-export: ../../vrf-export
+
+
+juniper_config_l3vpn_routing_instance_static_routeTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vrf']/routing-options/static/route
+  key: name
+  view: _juniper_config_l3vpn_routing_instance_static_route_view
+_juniper_config_l3vpn_routing_instance_static_route_view:
+  fields:
+    instance-name: ../../../name
+    static_route_name: name
+    next-hop: next-hop
+    qualified-next-hop: qualified-next-hop/name
+    resolve: resolve
+    discard: discard
+
+juniper_config_vpls_routing_instance_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/routing-instances/instance[instance-type='vpls']/interface
+  key: name
+  view: _juniper_config_vpls_routing_instance_interface_view
+_juniper_config_vpls_routing_instance_interface_view:
+  fields:
+    interface-name: name
+    instance-name: ../name
+
+
+juniper_config_igmp_interfaceTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //configuration/protocols/igmp/interface
+  key: name
+  view: _juniper_config_igmp_interface_view
+_juniper_config_igmp_interface_view:
+  fields:
+    interface-name: name
+    ssm-map-policy: ssm-map-policy
+    promiscuous-mode: promiscuous-mode
+
+juniper_config_policy_termTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term
+  key: 
+     - name
+     - ../name
+  view: _juniper_config_policy_term_view
+_juniper_config_policy_term_view:
+  fields:
+    term_name: name
+    term_action_accept: then/accept
+    policy_name: ../name
+    protocol_condition: from/protocol
+    community_condition: from/community
+    route_filter_condition_address: from/route-filter/address
+    route_filter_condition_exact: from/route-filter/exact
+    community_action_name: then/community/community-name
+    community_action_add: then/community/add
+
+juniper_config_policy_term_community_actionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/then/community
+  key: 
+     - ../../name
+     - ../../../name
+     - community-name
+  view: _juniper_config_policy_term_community_action_view
+_juniper_config_policy_term_community_action_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    community_action_name: community-name
+    community_action_add: add
+
+juniper_config_policy_term_community_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/community
+  key: 
+     - ../../name
+     - ../../../name
+     - .
+  view: _juniper_config_policy_term_community_condition_view
+_juniper_config_policy_term_community_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    community_condition: .
+
+juniper_config_policy_term_protocol_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/protocol
+  key: 
+     - ../../name
+     - ../../../name
+     - .
+  view: _juniper_config_policy_term_protocol_condition_view
+_juniper_config_policy_term_protocol_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    protocol_condition: .
+
+
+juniper_config_policy_term_route_filter_conditionTable:
+  rpc: get-configuration
+  #filter_xml: routing-instances
+  item: //policy-options/policy-statement/term/from/route-filter
+  key: 
+     - ../../name
+     - ../../../name
+     - address
+  view: _juniper_config_policy_term_route_filter_condition_view
+_juniper_config_policy_term_route_filter_condition_view:
+  fields:
+    term_name: ../../name
+    policy_name: ../../../name
+    route_filter_condition_address: address
+    route_filter_condition_exact: exact
+
+L3VPN_Routing_InstanceTable:
+  get: routing-instances/instance/interface
+  # key: ../name
+  view: _L3VPN-RoutingInstance_view
+_L3VPN-RoutingInstance_view:
+  fields:
+    instance_name: ../name
+    interface_name: name
+    # interface_name: interface/name

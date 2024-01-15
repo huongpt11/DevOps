@@ -1,0 +1,39 @@
+LoopbackInterfaceTable:
+    rpc: get-interface-information
+    args:
+        interface_name: "*lo*" 
+    item: //physical-interface/logical-interface/address-family[address-family-name ='inet']/interface-address
+    key: ifa-local
+    view: _LoopbackInterface_view
+_LoopbackInterface_view:
+    fields:
+        ip_address: ./ifa-local
+
+OspfNeighborTable:
+  rpc: get-ospf-neighbor-information
+  item: ospf-neighbor
+  key:
+    - interface-name
+    - neighbor-id
+  view: _OspfNeighborView
+
+_OspfNeighborView:
+  fields:
+    neighbor_address: neighbor-address
+    interface_name: interface-name
+    ospf_neighbor_state: ospf-neighbor-state
+    neighbor_id: neighbor-id
+    neighbor_priority: neighbor-priority
+    activity_timer: activity-timer
+
+OspfRouterTable:
+  rpc: get-ospf-database-information
+  args: 
+    router: True
+  item: //ospf-database-information
+  key: ospf-database/advertising-router
+  view: _OspfRouterView
+
+_OspfRouterView:
+  fields:
+    address_prefix: ospf-database/advertising-router

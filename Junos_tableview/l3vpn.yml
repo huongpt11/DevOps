@@ -1,0 +1,24 @@
+L3VPN-Routing-InstanceTable:
+  get: routing-instances/instance
+  key: name
+  view: _L3VPN-RoutingInstance_view
+_L3VPN-RoutingInstance_view:
+  fields:
+    instance_name: name
+    interface_name: interface/name
+
+
+L3VPN-Physical-PortTable:
+  rpc: get-arp-table-information
+  item: arp-table-entry
+  # args:
+  #   interface: "irb.2705"
+  key: ip-address
+  view: _L3VPN-Physical-Port_view
+_L3VPN-Physical-Port_view:
+    fields:
+      mac-address: mac-address
+      ip-address: ip-address
+      hostname: hostname
+      interface-name: interface-name
+

@@ -1,0 +1,17 @@
+---
+ApsTable:
+    rpc: get-aps-information
+    item: //aps-interface
+    key: aps-interface-name
+    view: _ApsView
+_ApsView:
+    fields:
+        interface_name: aps-interface-name
+        interface-group: aps-interface-group
+        circuit-type: aps-interface-circuit-type
+        circuit-state: aps-interface-circuit-state
+        interface-state: aps-interface-state
+        neighbor: aps-neighbor
+        adjacent-state: aps-adjacent-state
+        neighbor-select-state: aps-neighbor-select-state
+        channel-state: aps-channel-state
