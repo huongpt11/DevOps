@@ -1,28 +1,20 @@
+---
 LogicalInterfaceTable:
-    rpc: get-interface-information
     args:
-        interface_name: "*e*" 
+        interface_name: '*e*'
     item: //physical-interface/logical-interface
     key: name
+    rpc: get-interface-information
     view: _LogicalInterface_view
+
 _LogicalInterface_view:
     fields:
-        physical_description: ../description
-        logical_description: description
         admin_status: ../admin-status
-        operaional_status: ../oper-status
-        snmp_index: snmp-index
-        physical_interface: ../name
         ip_address: address-family[address-family-name ='inet']/interface-address/ifa-local
         ip_network: address-family[address-family-name ='inet']/interface-address/ifa-destination
+        logical_description: description
+        operaional_status: ../oper-status
+        physical_description: ../description
+        physical_interface: ../name
+        snmp_index: snmp-index
         vlan_tag: link-address
-
-L3VPN_Routing_InstanceTable:
-  get: routing-instances/instance/interface
-  # key: ../name
-  view: _L3VPN-RoutingInstance_view
-_L3VPN-RoutingInstance_view:
-  fields:
-    instance_name: ../name
-    interface_name: name
-    # interface_name: interface/name
