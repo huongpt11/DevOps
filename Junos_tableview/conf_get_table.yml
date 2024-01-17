@@ -1,9 +1,4 @@
 ---
-juniper_config_firewall_policerTable:
-    item: //configuration/firewall/policer
-    key: name
-    rpc: get-configuration
-    view: _juniper_config_firewall_policer_view
 juniper_config_igmp_interfaceTable:
     item: //configuration/protocols/igmp/interface
     key: name
@@ -67,15 +62,6 @@ juniper_config_vpls_routing_instance_interfaceTable:
     rpc: get-configuration
     view: _juniper_config_vpls_routing_instance_interface_view
 
-_juniper_config_firewall_policer_view:
-    fields:
-        action_discard: then/discard
-        action_fordwarding_class: then/forwarding-class
-        action_loss_priority: then/loss-priority
-        bandwidth_limit: if-exceeding/bandwidth-limit
-        bandwidth_percent: if-exceeding/bandwidth-percent
-        burst_size: if-exceeding/burst-size-limit
-        policer_name: name
 _juniper_config_igmp_interface_view:
     fields:
         interface-name: name
@@ -137,3 +123,18 @@ _juniper_config_vpls_routing_instance_interface_view:
     fields:
         instance-name: ../name
         interface-name: name
+
+#17/01/2024 22:54:23
+juniper_config_firewall_policerTable:
+    item: //configuration/firewall/policer
+    key: name
+    rpc: get-configuration
+    view: _juniper_config_firewall_policer_view
+
+_juniper_config_firewall_policer_view:
+    fields:
+        action_discard: then/discard
+        action_fordwarding_class: then/forwarding-class
+        action_loss_priority: then/loss-priority
+        bandwidth_limit: if-exceeding/bandwidth-limit
+
