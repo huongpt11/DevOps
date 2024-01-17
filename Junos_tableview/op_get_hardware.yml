@@ -302,3 +302,39 @@ _ADC_view:
         model: model-number
         desc: description
 
+
+#17/01/2024 22:59:04
+PIC99Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _PIC99_view
+_PIC99_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+
+#17/01/2024 23:01:40
+PIC77Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _PIC77_view
+_PIC77_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
