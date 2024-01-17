@@ -1,4 +1,9 @@
 ---
+juniper_config_firewall_policerTable:
+    item: //configuration/firewall/policer
+    key: name
+    rpc: get-configuration
+    view: _juniper_config_firewall_policer_view
 juniper_config_igmp_interfaceTable:
     item: //configuration/protocols/igmp/interface
     key: name
@@ -9,11 +14,6 @@ juniper_config_l3vpn_routing_instance_interfaceTable:
     key: ../name
     rpc: get-configuration
     view: _juniper_config_l3vpn_routing_instance_interface_view
-juniper_config_l3vpn_routing_instance_static_routeTable:
-    item: //configuration/routing-instances/instance[instance-type='vrf']/routing-options/static/route
-    key: name
-    rpc: get-configuration
-    view: _juniper_config_l3vpn_routing_instance_static_route_view
 juniper_config_policy_statement_term_community_conditionTable:
     get: policy-options/policy-statement/term/from/community
     view: _juniper_config_policy_statement_term_community_condition_view
@@ -62,6 +62,12 @@ juniper_config_vpls_routing_instance_interfaceTable:
     rpc: get-configuration
     view: _juniper_config_vpls_routing_instance_interface_view
 
+_juniper_config_firewall_policer_view:
+    fields:
+        action_discard: then/discard
+        action_fordwarding_class: then/forwarding-class
+        action_loss_priority: then/loss-priority
+        bandwidth_limit: if-exceeding/bandwidth-limit
 _juniper_config_igmp_interface_view:
     fields:
         interface-name: name
@@ -74,14 +80,6 @@ _juniper_config_l3vpn_routing_instance_interface_view:
         rd: ../../route-distinguisher/rd-type
         vrf-export: ../../vrf-export
         vrf-import: ../../vrf-import
-_juniper_config_l3vpn_routing_instance_static_route_view:
-    fields:
-        discard: discard
-        instance-name: ../../../name
-        next-hop: next-hop
-        qualified-next-hop: qualified-next-hop/name
-        resolve: resolve
-        static_route_name: name
 _juniper_config_policy_statement_term_community_condition_view:
     fields:
         policy_name: ../../../name
@@ -124,17 +122,14 @@ _juniper_config_vpls_routing_instance_interface_view:
         instance-name: ../name
         interface-name: name
 
-#17/01/2024 22:54:23
-juniper_config_firewall_policerTable:
-    item: //configuration/firewall/policer
+#17/01/2024 23:04:06
+juniper_config_l3vpn_routing_instance_static_routeTable:
+    item: //configuration/routing-instances/instance[instance-type='vrf']/routing-options/static/route
     key: name
     rpc: get-configuration
-    view: _juniper_config_firewall_policer_view
+    view: _juniper_config_l3vpn_routing_instance_static_route_view
 
-_juniper_config_firewall_policer_view:
+_juniper_config_l3vpn_routing_instance_static_route_view:
     fields:
-        action_discard: then/discard
-        action_fordwarding_class: then/forwarding-class
-        action_loss_priority: then/loss-priority
-        bandwidth_limit: if-exceeding/bandwidth-limit
-
+        discard: discard
+        instance-name: ../../../name
