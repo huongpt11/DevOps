@@ -19,13 +19,6 @@ juniper_config_l3vpn_routing_instance_static_routeTable:
     key: name
     rpc: get-configuration
     view: _juniper_config_l3vpn_routing_instance_static_route_view
-juniper_config_policy_termTable:
-    item: //policy-options/policy-statement/term
-    key:
-    - name
-    - ../name
-    rpc: get-configuration
-    view: _juniper_config_policy_term_view
 juniper_config_policy_term_community_actionTable:
     item: //policy-options/policy-statement/term/then/community
     key:
@@ -108,17 +101,6 @@ _juniper_config_policy_term_route_filter_condition_view:
         route_filter_condition_address: address
         route_filter_condition_exact: exact
         term_name: ../../name
-_juniper_config_policy_term_view:
-    fields:
-        community_action_add: then/community/add
-        community_action_name: then/community/community-name
-        community_condition: from/community
-        policy_name: ../name
-        protocol_condition: from/protocol
-        route_filter_condition_address: from/route-filter/address
-        route_filter_condition_exact: from/route-filter/exact
-        term_action_accept: then/accept
-        term_name: name
 _juniper_config_vpls_routing_instance_interface_view:
     fields:
         instance-name: ../name
