@@ -219,3 +219,20 @@ _PIC55_view:
         pn: part-number
         sn: serial-number
         ver: version
+
+#17/01/2024 18:06:32
+PICSub66Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    view: _PIC66_view
+_PIC66_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
