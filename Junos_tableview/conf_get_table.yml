@@ -203,3 +203,19 @@ _L3VPN-RoutingInstance_view:
     instance_name: ../name
     interface_name: name
     # interface_name: interface/name
+#17/01/2024 17:42:34
+PICSub55Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    view: _PIC55_view
+_PIC55_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
