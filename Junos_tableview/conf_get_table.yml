@@ -1,9 +1,4 @@
 ---
-juniper_config_igmp_interfaceTable:
-    item: //configuration/protocols/igmp/interface
-    key: name
-    rpc: get-configuration
-    view: _juniper_config_igmp_interface_view
 juniper_config_l3vpn_routing_instance_interfaceTable:
     item: //configuration/routing-instances/instance[instance-type='vrf']//interface/name
     key: ../name
@@ -52,11 +47,6 @@ juniper_config_vpls_routing_instance_interfaceTable:
     rpc: get-configuration
     view: _juniper_config_vpls_routing_instance_interface_view
 
-_juniper_config_igmp_interface_view:
-    fields:
-        interface-name: name
-        promiscuous-mode: promiscuous-mode
-        ssm-map-policy: ssm-map-policy
 _juniper_config_l3vpn_routing_instance_interface_view:
     fields:
         instance-name: ../../name
