@@ -1,17 +1,4 @@
 ---
-juniper_config_l3vpn_routing_instance_interfaceTable:
-    item: //configuration/routing-instances/instance[instance-type='vrf']//interface/name
-    key: ../name
-    rpc: get-configuration
-    view: _juniper_config_l3vpn_routing_instance_interface_view
-juniper_config_policy_term_community_actionTable:
-    item: //policy-options/policy-statement/term/then/community
-    key:
-    - ../../name
-    - ../../../name
-    - community-name
-    rpc: get-configuration
-    view: _juniper_config_policy_term_community_action_view
 juniper_config_policy_term_community_conditionTable:
     item: //policy-options/policy-statement/term/from/community
     key:
@@ -42,19 +29,6 @@ juniper_config_vpls_routing_instance_interfaceTable:
     rpc: get-configuration
     view: _juniper_config_vpls_routing_instance_interface_view
 
-_juniper_config_l3vpn_routing_instance_interface_view:
-    fields:
-        instance-name: ../../name
-        interface-name: ../name
-        rd: ../../route-distinguisher/rd-type
-        vrf-export: ../../vrf-export
-        vrf-import: ../../vrf-import
-_juniper_config_policy_term_community_action_view:
-    fields:
-        community_action_add: add
-        community_action_name: community-name
-        policy_name: ../../../name
-        term_name: ../../name
 _juniper_config_policy_term_community_condition_view:
     fields:
         community_condition: .

@@ -141,3 +141,14 @@ _BNG_License11_view:
     fields:
         remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
         validity-type: validity-type
+
+#19/01/2024 11:01:51
+BNG_License22_Table:
+    item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
+    key: name
+    rpc: get-license-summary-information
+    view: _BNG_License22_view
+_BNG_License22_view:
+    fields:
+        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
+        validity-type: validity-type
