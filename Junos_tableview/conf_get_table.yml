@@ -7,22 +7,6 @@ juniper_config_policy_term_community_conditionTable:
     - .
     rpc: get-configuration
     view: _juniper_config_policy_term_community_condition_view
-juniper_config_policy_term_protocol_conditionTable:
-    item: //policy-options/policy-statement/term/from/protocol
-    key:
-    - ../../name
-    - ../../../name
-    - .
-    rpc: get-configuration
-    view: _juniper_config_policy_term_protocol_condition_view
-juniper_config_policy_term_route_filter_conditionTable:
-    item: //policy-options/policy-statement/term/from/route-filter
-    key:
-    - ../../name
-    - ../../../name
-    - address
-    rpc: get-configuration
-    view: _juniper_config_policy_term_route_filter_condition_view
 juniper_config_vpls_routing_instance_interfaceTable:
     item: //configuration/routing-instances/instance[instance-type='vpls']/interface
     key: name
@@ -33,17 +17,6 @@ _juniper_config_policy_term_community_condition_view:
     fields:
         community_condition: .
         policy_name: ../../../name
-        term_name: ../../name
-_juniper_config_policy_term_protocol_condition_view:
-    fields:
-        policy_name: ../../../name
-        protocol_condition: .
-        term_name: ../../name
-_juniper_config_policy_term_route_filter_condition_view:
-    fields:
-        policy_name: ../../../name
-        route_filter_condition_address: address
-        route_filter_condition_exact: exact
         term_name: ../../name
 _juniper_config_vpls_routing_instance_interface_view:
     fields:
