@@ -1,4 +1,8 @@
 ---
+CB11Table:
+    item: //name[starts-with(.,'CB')]/parent::*
+    rpc: get-chassis-inventory
+    view: _CB11_view
 juniper_config_policy_term_community_conditionTable:
     item: //policy-options/policy-statement/term/from/community
     key:
@@ -7,26 +11,6 @@ juniper_config_policy_term_community_conditionTable:
     - .
     rpc: get-configuration
     view: _juniper_config_policy_term_community_condition_view
-juniper_config_vpls_routing_instance_interfaceTable:
-    item: //configuration/routing-instances/instance[instance-type='vpls']/interface
-    key: name
-    rpc: get-configuration
-    view: _juniper_config_vpls_routing_instance_interface_view
-
-_juniper_config_policy_term_community_condition_view:
-    fields:
-        community_condition: .
-        policy_name: ../../../name
-_juniper_config_vpls_routing_instance_interface_view:
-    fields:
-        instance-name: ../name
-        interface-name: name
-
-#22/01/2024 14:33:05
-CB11Table:
-    item: //name[starts-with(.,'CB')]/parent::*
-    rpc: get-chassis-inventory
-    view: _CB11_view
 
 _CB11_view:
     fields:
@@ -36,4 +20,20 @@ _CB11_view:
         pn: part-number
         sn: serial-number
         ver: version
+_juniper_config_policy_term_community_condition_view:
+    fields:
+        community_condition: .
+        policy_name: ../../../name
+
+#22/01/2024 14:35:01
+juniper_config_vpls_routing_instance_interfaceTable:
+    item: //configuration/routing-instances/instance[instance-type='vpls']/interface
+    key: name
+    rpc: get-configuration
+    view: _juniper_config_vpls_routing_instance_interface_view
+
+_juniper_config_vpls_routing_instance_interface_view:
+    fields:
+        instance-name: ../name
+        interface-name: name
 
