@@ -3,10 +3,6 @@ CB11Table:
     item: //name[starts-with(.,'CB')]/parent::*
     rpc: get-chassis-inventory
     view: _CB11_view
-CB13Table:
-    item: //name[starts-with(.,'CB')]/parent::*
-    rpc: get-chassis-inventory
-    view: _CB13_view
 juniper_config_policy_term_community_conditionTable:
     item: //policy-options/policy-statement/term/from/community
     key:
@@ -29,13 +25,6 @@ _CB11_view:
         pn: part-number
         sn: serial-number
         ver: version
-_CB13_view:
-    fields:
-        desc: description
-        model: model-number
-        name: name
-        pn: part-number
-        sn: serial-number
 _juniper_config_policy_term_community_condition_view:
     fields:
         community_condition: .
