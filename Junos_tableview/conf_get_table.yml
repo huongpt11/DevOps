@@ -1,4 +1,9 @@
 ---
+{}
+
+{}
+
+#23/01/2024 11:25:30
 juniper_config_policy_term_community_conditionTable:
     item: //policy-options/policy-statement/term/from/community
     key:
@@ -12,3 +17,4 @@ _juniper_config_policy_term_community_condition_view:
     fields:
         community_condition: .
         policy_name: ../../../name
+
