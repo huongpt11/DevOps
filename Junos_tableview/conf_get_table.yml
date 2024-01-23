@@ -27,6 +27,12 @@ FanTrayTable:
     item: //name[starts-with(.,'Fan Tray')]/parent::*
     rpc: get-chassis-inventory
     view: _FanTray_view
+MICSubTable:
+    item: //name[starts-with(.,'MIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - name
+    view: _MIC_view
 MICTable:
     item: //name[starts-with(.,'MIC')]/parent::*
     key:
@@ -114,12 +120,6 @@ RoutingEngineTable:
     item: //name[starts-with(.,'Routing Engine')]/parent::*
     rpc: get-chassis-inventory
     view: _RoutingEngine_view
-SFBTable:
-    item: //name[starts-with(.,'SFB')]/parent::*
-    key:
-    - name
-    rpc: get-chassis-inventory
-    view: _SFB_view
 
 _ADC_view:
     fields:
@@ -167,6 +167,11 @@ _FanTray_view:
         pn: part-number
         sn: serial-number
         ver: version
+_MIC_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
 _PDM_view:
     fields:
         desc: description
@@ -247,25 +252,3 @@ _RoutingEngine_view:
         pn: part-number
         sn: serial-number
         ver: version
-_SFB_view:
-    fields:
-        desc: description
-        model: model-number
-        name: name
-        pn: part-number
-        sn: serial-number
-        ver: version
-
-#23/01/2024 15:07:08
-MICSubTable:
-    item: //name[starts-with(.,'MIC')]/parent::*
-    key:
-    - ancestor::*[starts-with(name,'FPC')]/name
-    - name
-    view: _MIC_view
-
-_MIC_view:
-    fields:
-        desc: description
-        model: model-number
-        name: name
