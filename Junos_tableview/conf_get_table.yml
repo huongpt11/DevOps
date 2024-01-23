@@ -77,14 +77,6 @@ PICSubTable:
     - ancestor::*[starts-with(name,'MIC')]/name
     - name
     view: _PIC_view
-PICTable:
-    item: //name[starts-with(.,'PIC')]/parent::*
-    key:
-    - ancestor::*[starts-with(name,'FPC')]/name
-    - ancestor::*[starts-with(name,'MIC')]/name
-    - name
-    rpc: get-chassis-inventory
-    view: _PIC_view
 PSMTable:
     item: //name[starts-with(.,'PSM')]/parent::*
     key:
@@ -210,14 +202,6 @@ _PICStatus_view:
         pic_slot: pic-slot
         pic_state: pic-state
         pic_type: pic-type
-_PIC_view:
-    fields:
-        desc: description
-        fpc_name: ../name
-        pic_name: name
-        pn: part-number
-        sn: serial-number
-        ver: version
 _PSM_view:
     fields:
         desc: description
