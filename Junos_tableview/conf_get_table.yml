@@ -1,20 +1,271 @@
 ---
-{}
-
-{}
-
-#23/01/2024 11:25:30
-juniper_config_policy_term_community_conditionTable:
-    item: //policy-options/policy-statement/term/from/community
+ADCTable:
+    item: //name[starts-with(.,'ADC')]/parent::*
     key:
-    - ../../name
-    - ../../../name
-    - .
-    rpc: get-configuration
-    view: _juniper_config_policy_term_community_condition_view
+    - name
+    rpc: get-chassis-inventory
+    view: _ADC_view
+CBTable:
+    item: //name[starts-with(.,'CB')]/parent::*
+    rpc: get-chassis-inventory
+    view: _CB_view
+ChassisInventoryTable:
+    item: //name[starts-with(.,'Chassis')]/parent::*
+    rpc: get-chassis-inventory
+    view: _ChassisInventory_view
+FPCTable:
+    item: //name[starts-with(.,'FPC')]/parent::*
+    key:
+    - name
+    rpc: get-chassis-inventory
+    view: _FPC_view
+FPMTable:
+    item: //name[starts-with(.,'FPM')]/parent::*
+    rpc: get-chassis-inventory
+    view: _FPM_view
+FanTrayTable:
+    item: //name[starts-with(.,'Fan Tray')]/parent::*
+    rpc: get-chassis-inventory
+    view: _FanTray_view
+MICTable:
+    item: //name[starts-with(.,'MIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _MIC_view
+PDMTable:
+    item: //name[starts-with(.,'PDM')]/parent::*
+    rpc: get-chassis-inventory
+    view: _PDM_view
+PEMTable:
+    item: //name[starts-with(.,'PEM')]/parent::*
+    rpc: get-chassis-inventory
+    view: _PEM_view
+PIC77Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    rpc: get-chassis-inventory
+    view: _PIC77_view
+PIC99Table:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _PIC99_view
+PICStatusTable:
+    item: //fpc/pic
+    key:
+    - ../slot
+    - pic-slot
+    rpc: get-pic-information
+    view: _PICStatus_view
+PICSubTable:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    view: _PIC_view
+PICTable:
+    item: //name[starts-with(.,'PIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _PIC_view
+PSMTable:
+    item: //name[starts-with(.,'PSM')]/parent::*
+    key:
+    - name
+    rpc: get-chassis-inventory
+    view: _PSM_view
+PortModuleDetailTable:
+    item: .//fpc/pic-detail/port-information/port
+    key:
+    - ancestor::*/slot
+    - ancestor::*/pic-slot
+    - port-number
+    rpc: get-pic-detail
+    view: _PortModuleDetail_view
+PortModuleSubTable:
+    item: //name[starts-with(.,'Xcvr')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - ancestor::*[starts-with(name,'PIC')]/name
+    - name
+    view: _PortModule_view
+PortModuleTable:
+    item: //name[starts-with(.,'Xcvr')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - ancestor::*[starts-with(name,'MIC')]/name
+    - ancestor::*[starts-with(name,'PIC')]/name
+    - name
+    rpc: get-chassis-inventory
+    view: _PortModule_view
+RoutingEngineTable:
+    item: //name[starts-with(.,'Routing Engine')]/parent::*
+    rpc: get-chassis-inventory
+    view: _RoutingEngine_view
+SFBTable:
+    item: //name[starts-with(.,'SFB')]/parent::*
+    key:
+    - name
+    rpc: get-chassis-inventory
+    view: _SFB_view
 
-_juniper_config_policy_term_community_condition_view:
+_ADC_view:
     fields:
-        community_condition: .
-        policy_name: ../../../name
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_CB_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_ChassisInventory_view:
+    fields:
+        desc: description
+        name: name
+        sn: serial-number
+_FPC_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_FPM_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_FanTray_view:
+    fields:
+        clei-code: clei-code
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PDM_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PEM_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PIC77_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PIC99_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PICStatus_view:
+    fields:
+        fpc_slot: ../slot
+        pic_slot: pic-slot
+        pic_state: pic-state
+        pic_type: pic-type
+_PIC_view:
+    fields:
+        desc: description
+        fpc_name: ../name
+        pic_name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PSM_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_PortModuleDetail_view:
+    fields:
+        cable-type: cable-type
+        fiber-mode: fiber-mode
+        fpc_slot: ancestor::*/slot
+        pic_slot: ancestor::*/pic-slot
+        port-number: port-number
+        sfp-vendor-fw-ver: sfp-vendor-fw-ver
+        sfp-vendor-name: sfp-vendor-name
+        sfp-vendor-pno: sfp-vendor-pno
+        wavelength: wavelength
+_PortModule_view:
+    fields:
+        desc: description
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_RoutingEngine_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
+_SFB_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
+        pn: part-number
+        sn: serial-number
+        ver: version
 
+#23/01/2024 15:07:08
+MICSubTable:
+    item: //name[starts-with(.,'MIC')]/parent::*
+    key:
+    - ancestor::*[starts-with(name,'FPC')]/name
+    - name
+    view: _MIC_view
+
+_MIC_view:
+    fields:
+        desc: description
+        model: model-number
+        name: name
