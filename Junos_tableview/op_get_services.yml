@@ -1,165 +1,137 @@
 ---
-BNG_VlanTable:
-    rpc: get-subscribers
-    args:
-      client-type: 'vlan'
-    item: subscriber
-    key: vlan-id
-    view: _BNG_Vlan_view
-_BNG_Vlan_view:
-    fields:
-        vlan_id: vlan-id
-        stacked_vlan_id: stacked-vlan-id
-        routing_instance: routing-instance
-        logical_system: logical-system
-        interface: interface
-
-BNG_sub_per_vlanTable:
-    rpc: get-subscribers
-    item: //subscriber
-    key: number-of-subscribers
-    view: _BNG_Sub_per_Vlan_view
-_BNG_Sub_per_Vlan_view:
-    fields:
-        total_subscriber: number-of-subscribers
-        active_subscriber: number-of-active-subscribers
-
-
-BNG-COUNT-Table:
-# rpc  subscribers summary on Junos version 15.1
-    rpc: get-subscribers
-    item: //subscriber 
-    key: number-of-subscribers
-    view: _BNG-COUNT_view
-_BNG-COUNT_view:
-    fields:
-        total_subscriber: number-of-subscribers
-        active_subscriber: number-of-active-subscribers
-
-BNG-SUMMARY-Table:
-# rpc  subscribers summary port on Junos version 15.1
-    rpc: get-subscribers-summary
-    item: //counters 
-    key: port-name
-    view: _BNG-SUMMARY_view
-_BNG-SUMMARY_view:
-    fields:
-        port: port-name
-        subscriber: port-count
-
-BNG-VLANID-Table:
-# rpc  subscribers summary on Junos version 15.1
-    rpc: get-subscribers
-    item: //subscriber
-    key: vlan-id
-    view: _BNG-VLANID_view
-_BNG-VLANID_view:
-    fields:
-        vlan_id: vlan-id
-
 BNG-COUNT-PORT-v15-Table:
-# rpc  subscribers summary port on Junos version 15.1
-    rpc: get-subscribers-summary
     item: //counters
     key: port-name
-    view: _BNG-COUNT-PORT-v15_view
-_BNG-COUNT-PORT-v15_view:
-    fields:
-        port: port-name
-        subscriber: port-count
-
-
-
-# table view for Junos version 17.3R3
-BNG-SUMMARY-v17-Table:
-# rpc subscribers summary
     rpc: get-subscribers-summary
-    item: //counters[@style="type-summary"]     
-#   item: //counters[last()] 
-    key: session-type-total
-    view: _BNG-SUMMARY-v17_view
-_BNG-SUMMARY-v17_view:
-    fields:
-        dhcp_subscriber: session-type-dhcp
-        vlan_subscriber: session-type-vlan
-        pppoe_subscriber: session-type-pppoe
-        total_subscriber: session-type-total
-
-
+    view: _BNG-COUNT-PORT-v15_view
+BNG-COUNT-PORT-v17-Table:
+    item: //counters
+    key: port-name
+    rpc: get-subscribers-port-summary
+    view: _BNG-COUNT-PORT-v17_view
+BNG-COUNT-Table:
+    item: //subscriber
+    key: number-of-subscribers
+    rpc: get-subscribers
+    view: _BNG-COUNT_view
 BNG-POOL-STATISTIC-Table:
-    rpc: get-address-assignment-pool-statistics
     item: //aaa-module-address-assignment-pool-statistics
     key: pool-name
+    rpc: get-address-assignment-pool-statistics
     view: _BNG-POOL-SUMMARY_view
-_BNG-POOL-SUMMARY_view:
-    fields:
-        pool_usage_percent: pool-usage
-        pool_used_address: used-addresses
-
-BNG-COUNT-PORT-v17-Table:
-# rpc subscribers summary port on Junos version 17.3R3
-    rpc: get-subscribers-port-summary
+BNG-SUMMARY-Table:
     item: //counters
     key: port-name
-    view: _BNG-COUNT-PORT-v17_view
-_BNG-COUNT-PORT-v17_view:
-    fields:
-        port: port-name
-        subscriber: port-count
-
-
-BNG_POOLS_Table:
-    get: access/address-assignment/pool 
-    #item: //pool
-    key: name
-    view: _BNG_POOLS_View
-    
-_BNG_POOLS_View:
-    fields:
-        name: name
-        link_pool: link
-
-BNG_License_Table:
-    rpc: get-license-summary-information
-    item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
-    key: name
-    view: _BNG_License_view
-_BNG_License_view:
-    fields:
-        validity-type: validity-type
-        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
-
-
-
-#19/01/2024 10:59:37
+    rpc: get-subscribers-summary
+    view: _BNG-SUMMARY_view
+BNG-VLANID-Table:
+    item: //subscriber
+    key: vlan-id
+    rpc: get-subscribers
+    view: _BNG-VLANID_view
 BNG_License11_Table:
     item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
     key: name
     rpc: get-license-summary-information
     view: _BNG_License11_view
-_BNG_License11_view:
-    fields:
-        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
-        validity-type: validity-type
-
-#19/01/2024 11:01:51
 BNG_License22_Table:
     item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
     key: name
     rpc: get-license-summary-information
     view: _BNG_License22_view
-_BNG_License22_view:
-    fields:
-        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
-        validity-type: validity-type
-
-#19/01/2024 11:41:43
 BNG_License44_Table:
     item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
     key: name
     rpc: get-license-summary-information
     view: _BNG_License44_view
+BNG_License_Table:
+    item: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]
+    key: name
+    rpc: get-license-summary-information
+    view: _BNG_License_view
+BNG_POOLS_Table:
+    get: access/address-assignment/pool
+    key: name
+    view: _BNG_POOLS_View
+BNG_VlanTable:
+    args:
+        client-type: vlan
+    item: subscriber
+    key: vlan-id
+    rpc: get-subscribers
+    view: _BNG_Vlan_view
+BNG_sub_per_vlanTable:
+    item: //subscriber
+    key: number-of-subscribers
+    rpc: get-subscribers
+    view: _BNG_Sub_per_Vlan_view
+
+_BNG-COUNT-PORT-v15_view:
+    fields:
+        port: port-name
+        subscriber: port-count
+_BNG-COUNT-PORT-v17_view:
+    fields:
+        port: port-name
+        subscriber: port-count
+_BNG-COUNT_view:
+    fields:
+        active_subscriber: number-of-active-subscribers
+        total_subscriber: number-of-subscribers
+_BNG-POOL-SUMMARY_view:
+    fields:
+        pool_usage_percent: pool-usage
+        pool_used_address: used-addresses
+_BNG-SUMMARY_view:
+    fields:
+        port: port-name
+        subscriber: port-count
+_BNG-VLANID_view:
+    fields:
+        vlan_id: vlan-id
+_BNG_License11_view:
+    fields:
+        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
+        validity-type: validity-type
+_BNG_License22_view:
+    fields:
+        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
+        validity-type: validity-type
 _BNG_License44_view:
     fields:
         remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
         validity-type: validity-type
+_BNG_License_view:
+    fields:
+        remain: //license-usage-summary/feature-summary[name[text()="scale-subscriber"]]/remaining-time/remaining-validity-value
+        validity-type: validity-type
+_BNG_POOLS_View:
+    fields:
+        link_pool: link
+        name: name
+_BNG_Sub_per_Vlan_view:
+    fields:
+        active_subscriber: number-of-active-subscribers
+        total_subscriber: number-of-subscribers
+_BNG_Vlan_view:
+    fields:
+        interface: interface
+        logical_system: logical-system
+        routing_instance: routing-instance
+        stacked_vlan_id: stacked-vlan-id
+        vlan_id: vlan-id
+
+#24/01/2024 11:05:45
+BNG-SUMMARY-v17-Table:
+    item: //counters[@style="type-summary"]
+    key: session-type-total
+    rpc: get-subscribers-summary
+    view: _BNG-SUMMARY-v17_view
+
+_BNG-SUMMARY-v17_view:
+    fields:
+        dhcp_subscriber: session-type-dhcp
+        pppoe_subscriber: session-type-pppoe
+        total_subscriber: session-type-total
+        vlan_subscriber: session-type-vlan
+
