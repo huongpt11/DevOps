@@ -5,6 +5,10 @@ ADCTable:
     - name
     rpc: get-chassis-inventory
     view: _ADC_view
+CBTable:
+    item: //name[starts-with(.,'CB')]/parent::*
+    rpc: get-chassis-inventory
+    view: _CB_view
 ChassisInventoryTable:
     item: //name[starts-with(.,'Chassis')]/parent::*
     rpc: get-chassis-inventory
@@ -15,10 +19,6 @@ FPCTable:
     - name
     rpc: get-chassis-inventory
     view: _FPC_view
-FPMTable:
-    item: //name[starts-with(.,'FPM')]/parent::*
-    rpc: get-chassis-inventory
-    view: _FPM_view
 FanTrayTable:
     item: //name[starts-with(.,'Fan Tray')]/parent::*
     rpc: get-chassis-inventory
@@ -131,12 +131,7 @@ _ADC_view:
         pn: part-number
         sn: serial-number
         ver: version
-_ChassisInventory_view:
-    fields:
-        desc: description
-        name: name
-        sn: serial-number
-_FPC_view:
+_CB_view:
     fields:
         desc: description
         model: model-number
@@ -144,7 +139,12 @@ _FPC_view:
         pn: part-number
         sn: serial-number
         ver: version
-_FPM_view:
+_ChassisInventory_view:
+    fields:
+        desc: description
+        name: name
+        sn: serial-number
+_FPC_view:
     fields:
         desc: description
         model: model-number
@@ -257,19 +257,3 @@ _SFB_view:
         pn: part-number
         sn: serial-number
         ver: version
-
-#22/01/2024 14:36:41
-CBTable:
-    item: //name[starts-with(.,'CB')]/parent::*
-    rpc: get-chassis-inventory
-    view: _CB_view
-
-_CB_view:
-    fields:
-        desc: description
-        model: model-number
-        name: name
-        pn: part-number
-        sn: serial-number
-        ver: version
-
