@@ -44,13 +44,6 @@ PEMTable:
     item: //name[starts-with(.,'PEM')]/parent::*
     rpc: get-chassis-inventory
     view: _PEM_view
-PIC77Table:
-    item: //name[starts-with(.,'PIC')]/parent::*
-    key:
-    - ancestor::*[starts-with(name,'FPC')]/name
-    - ancestor::*[starts-with(name,'MIC')]/name
-    rpc: get-chassis-inventory
-    view: _PIC77_view
 PIC99Table:
     item: //name[starts-with(.,'PIC')]/parent::*
     key:
@@ -182,14 +175,6 @@ _PEM_view:
         desc: description
         model: model-number
         name: name
-        pn: part-number
-        sn: serial-number
-        ver: version
-_PIC77_view:
-    fields:
-        desc: description
-        fpc_name: ../name
-        pic_name: name
         pn: part-number
         sn: serial-number
         ver: version
