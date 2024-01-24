@@ -5,14 +5,16 @@ ADCTable:
     - name
     rpc: get-chassis-inventory
     view: _ADC_view
-CBTable:
-    item: //name[starts-with(.,'CB')]/parent::*
-    rpc: get-chassis-inventory
-    view: _CB_view
 ChassisInventoryTable:
     item: //name[starts-with(.,'Chassis')]/parent::*
     rpc: get-chassis-inventory
     view: _ChassisInventory_view
+FPCTable:
+    item: //name[starts-with(.,'FPC')]/parent::*
+    key:
+    - name
+    rpc: get-chassis-inventory
+    view: _FPC_view
 FPMTable:
     item: //name[starts-with(.,'FPM')]/parent::*
     rpc: get-chassis-inventory
@@ -115,7 +117,12 @@ _ADC_view:
         pn: part-number
         sn: serial-number
         ver: version
-_CB_view:
+_ChassisInventory_view:
+    fields:
+        desc: description
+        name: name
+        sn: serial-number
+_FPC_view:
     fields:
         desc: description
         model: model-number
@@ -123,11 +130,6 @@ _CB_view:
         pn: part-number
         sn: serial-number
         ver: version
-_ChassisInventory_view:
-    fields:
-        desc: description
-        name: name
-        sn: serial-number
 _FPM_view:
     fields:
         desc: description
@@ -223,15 +225,13 @@ _RoutingEngine_view:
         sn: serial-number
         ver: version
 
-#23/01/2024 17:33:37
-FPCTable:
-    item: //name[starts-with(.,'FPC')]/parent::*
-    key:
-    - name
+#24/01/2024 10:15:33
+CBTable:
+    item: //name[starts-with(.,'CB')]/parent::*
     rpc: get-chassis-inventory
-    view: _FPC_view
+    view: _CB_view
 
-_FPC_view:
+_CB_view:
     fields:
         desc: description
         model: model-number
