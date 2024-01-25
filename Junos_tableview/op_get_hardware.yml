@@ -229,7 +229,7 @@ _SFB_view:
         sn: serial-number
         ver: version
 
-#25/01/2024 15:40:40
+#25/01/2024 15:45:49
 FPCTable:
     item: //name[starts-with(.,'FPC')]/parent::*
     key:
