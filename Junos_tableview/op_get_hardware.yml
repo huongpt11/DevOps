@@ -5,10 +5,10 @@ ADCTable:
     - name
     rpc: get-chassis-inventory
     view: _ADC_view
-CBTable:
-    item: //name[starts-with(.,'CB')]/parent::*
+ChassisInventoryTable:
+    item: //name[starts-with(.,'Chassis')]/parent::*
     rpc: get-chassis-inventory
-    view: _CB_view
+    view: _ChassisInventory_view
 FPCTable:
     item: //name[starts-with(.,'FPC')]/parent::*
     key:
@@ -120,14 +120,11 @@ _ADC_view:
         pn: part-number
         sn: serial-number
         ver: version
-_CB_view:
+_ChassisInventory_view:
     fields:
         desc: description
-        model: model-number
         name: name
-        pn: part-number
         sn: serial-number
-        ver: version
 _FPC_view:
     fields:
         desc: description
@@ -234,15 +231,17 @@ _SFB_view:
         sn: serial-number
         ver: version
 
-#25/01/2024 17:32:39
-ChassisInventoryTable:
-    item: //name[starts-with(.,'Chassis')]/parent::*
+#29/01/2024 10:02:34
+CBTable:
+    item: //name[starts-with(.,'CB')]/parent::*
     rpc: get-chassis-inventory
-    view: _ChassisInventory_view
+    view: _CB_view
 
-_ChassisInventory_view:
+_CB_view:
     fields:
         desc: description
+        model: model-number
         name: name
+        pn: part-number
         sn: serial-number
 
